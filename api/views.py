@@ -1,10 +1,9 @@
 
 from rest_framework import mixins
-
 from rest_framework.viewsets import GenericViewSet
 
-from api.models import Menu, Dish
-from api.serializers import MenuSerializer, DishSerializer
+from api.models import Dish, Menu
+from api.serializers import DishSerializer, MenuSerializer
 
 # TODO use decorators to change mixins permissions
 
