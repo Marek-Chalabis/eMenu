@@ -1,4 +1,4 @@
-from unittest.mock import patch, PropertyMock
+from unittest.mock import PropertyMock, patch
 
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -12,8 +12,8 @@ class TestMenuModelViewSet(UtilsMixinAPITestCase, APITestCase):
         response = self.client.post(
             path='/api/v1/menus/',
             data={
-                "describe": "test_menu",
-                "name": "test_menu",
+                'describe': 'test_menu',
+                'name': 'test_menu',
             },
         )
         assert response.status_code == status.HTTP_201_CREATED
@@ -25,10 +25,10 @@ class TestMenuModelViewSet(UtilsMixinAPITestCase, APITestCase):
             path='/api/v1/menus/',
             data={
                 **{
-                    "describe": "test_menu",
-                    "name": "test_menu",
+                    'describe': 'test_menu',
+                    'name': 'test_menu',
                 },
-                "dishes": [test_dish.id],
+                'dishes': [test_dish.id],
             },
         )
         assert response.status_code == status.HTTP_201_CREATED
@@ -86,10 +86,10 @@ class TestMenuModelViewSet(UtilsMixinAPITestCase, APITestCase):
         test_menu = self.create_menu(number_of_dishes=1)
         response = self.client.get(path=f'/api/v1/menus/{test_menu.id}/')
         assert {
-            "describe": "test_describe",
-            "name": "test_name",
-            "price": "21.37",
-            "vegetarian": False,
+            'describe': 'test_describe',
+            'name': 'test_name',
+            'price': '21.37',
+            'vegetarian': False,
         }.items() <= response.json()['dishes'][0].items()
         assert '12:34:00' == response.json()['dishes'][0]['preparation_time']
 
@@ -116,8 +116,8 @@ class TestMenuModelViewSet(UtilsMixinAPITestCase, APITestCase):
         put_response = self.client.put(
             path=f'/api/v1/menus/{test_menu.id}/',
             data={
-                "describe": "test_describe_put",
-                "name": "test_menu",
+                'describe': 'test_describe_put',
+                'name': 'test_menu',
             },
         )
         assert put_response.status_code == status.HTTP_200_OK
@@ -134,7 +134,7 @@ class TestMenuModelViewSet(UtilsMixinAPITestCase, APITestCase):
         test_menu = self.create_menu()
         patch_response = self.client.patch(
             path=f'/api/v1/menus/{test_menu.id}/',
-            data={"describe": "test_describe_put"},
+            data={'describe': 'test_describe_put'},
         )
         assert patch_response.status_code == status.HTTP_200_OK
         test_menu_json_put = patch_response.json()

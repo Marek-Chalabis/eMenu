@@ -1,8 +1,8 @@
+from datetime import datetime
+
 from rest_framework.test import APITestCase
 
 from api.tests.test_api.test_utils import UtilsMixinAPITestCase
-
-from datetime import datetime
 
 
 class TestMenuFilterSet(UtilsMixinAPITestCase, APITestCase):

@@ -1,5 +1,4 @@
 from rest_framework import status
-
 from rest_framework.test import APITestCase
 
 from api.tests.test_api.test_utils import UtilsMixinAPITestCase
@@ -11,11 +10,11 @@ class TestDishModelViewSet(UtilsMixinAPITestCase, APITestCase):
         response = self.client.post(
             path='/api/v1/dishes/',
             data={
-                "describe": "test_describe",
-                "name": "test_name",
-                "price": "21.37",
-                "preparation_time": "12:34",
-                "vegetarian": False,
+                'describe': 'test_describe',
+                'name': 'test_name',
+                'price': '21.37',
+                'preparation_time': '12:34',
+                'vegetarian': False,
             },
         )
         assert response.status_code == status.HTTP_201_CREATED
@@ -49,11 +48,11 @@ class TestDishModelViewSet(UtilsMixinAPITestCase, APITestCase):
         put_response = self.client.put(
             path=f'/api/v1/dishes/{test_dish.id}/',
             data={
-                "describe": "test_describe_put",
-                "name": "test_name",
-                "price": "21.37",
-                "preparation_time": "12:34",
-                "vegetarian": False,
+                'describe': 'test_describe_put',
+                'name': 'test_name',
+                'price': '21.37',
+                'preparation_time': '12:34',
+                'vegetarian': False,
             },
         )
         assert put_response.status_code == status.HTTP_200_OK
@@ -70,7 +69,7 @@ class TestDishModelViewSet(UtilsMixinAPITestCase, APITestCase):
         test_dish = self.create_dish()
         patch_response = self.client.patch(
             path=f'/api/v1/dishes/{test_dish.id}/',
-            data={"describe": "test_describe_put"},
+            data={'describe': 'test_describe_put'},
         )
         assert patch_response.status_code == status.HTTP_200_OK
         test_dish_json_put = patch_response.json()
