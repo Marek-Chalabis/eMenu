@@ -21,4 +21,8 @@ class Dish(ProductABC):
 
 class Menu(ProductABC):
     name = models.CharField(max_length=50, unique=True)
-    dishes = models.ManyToManyField(Dish,related_name='menu', blank=True)
+    dishes = models.ManyToManyField('Dish', related_name='menus', blank=True)
+
+    @property
+    def have_dishes(self) -> bool:
+        return bool(self.dishes.filter(pk=self.pk).exists())
