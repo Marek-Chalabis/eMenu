@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from djmoney.models.fields import MoneyField
 
@@ -6,6 +7,7 @@ class ProductABC(models.Model):
     describe = models.CharField(max_length=250)
     added_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         abstract = True
