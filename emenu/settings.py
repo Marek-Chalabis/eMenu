@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import List
 import environ
+from celery.schedules import crontab
 
 env: environ.Env = environ.Env()
 environ.Env.read_env()
@@ -31,7 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'api',
-
+    'emails',
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
@@ -145,12 +146,24 @@ REST_FRAMEWORK = {
 }
 
 # CELERY
-# CELERY_BROKER_URL = 'amqp://guest:guest@localhost'
 CELERY_BROKER_URL = env('CELERY_BROKER_URL')
 CELERY_ACCEPT_CONTENT = env.list('CELERY_ACCEPT_CONTENT')
-# CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
 CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
 CELERY_TASK_SERIALIZER = env('CELERY_TASK_SERIALIZER')
+CELERY_BEAT_SCHEDULE = {
+    'send_update_dish_emails': {
+        'task': "emails.tasks.send_update_dish_emails",
+        'schedule': crontab(minute=0, hour='10,'),
+    }
+}
+
+# EMAIL
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
 # DEBUG_TOOLBAR_CONFIG
 INTERNAL_IPS = [

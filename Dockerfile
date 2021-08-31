@@ -1,36 +1,28 @@
 FROM python:3.9.6-alpine
 
-ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED=1
-RUN addgroup -S app && adduser -S app -G app
+
 # app directory
 RUN mkdir /app
 ENV APP_HOME=/app
 WORKDIR $APP_HOME
 
-# psycopg2-binary packages requirment
-RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev
-
-# install dependecies
+# install dependecies and delete packages not needed after
 RUN pip install --upgrade pip
 COPY requirements.txt /.
+RUN apk add --update --no-cache postgresql-dev gcc python3-dev musl-dev
+RUN apk add --update --no-cache --virtual .tmp-build-deps \
+    libc-dev linux-headers  zlib zlib-dev
 RUN pip install -r /requirements.txt
+RUN apk del .tmp-build-deps
 
 # TODO add lints here or on CI/CD
-
-# copy entrypoint.sh for prod or develop
-COPY ./entrypoint.sh .
-RUN sed -i 's/\r$//g' $APP_HOME/entrypoint.sh
-RUN chmod +x $APP_HOME/entrypoint.sh
 
 # copy project
 COPY ./ $APP_HOME
 
 # create app user and give him permissions
-
+RUN addgroup -S app && adduser -S app -G app
 RUN chown -R app:app $APP_HOME
-USER app
 
-# run entrypoint.sh
-ENTRYPOINT ["/app/entrypoint.sh"]
+USER app
