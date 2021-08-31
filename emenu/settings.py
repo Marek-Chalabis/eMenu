@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'api',
-    'emails',  # TODO remove ater emails??
+    'emails',
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
@@ -151,9 +151,9 @@ CELERY_ACCEPT_CONTENT = env.list('CELERY_ACCEPT_CONTENT')
 CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
 CELERY_TASK_SERIALIZER = env('CELERY_TASK_SERIALIZER')
 CELERY_BEAT_SCHEDULE = {
-    'send_update_menu_emails': {
-        'task': "emails.tasks.send_update_menu_emails",
-        'schedule': 10, # todo adjust
+    'send_update_dish_emails': {
+        'task': "emails.tasks.send_update_dish_emails",
+        'schedule': crontab(minute=0, hour='10,'),
     }
 }
 

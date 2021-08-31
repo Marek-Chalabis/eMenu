@@ -7,7 +7,6 @@ from emenu import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    path('emails/', include('emails.urls')),  # tODO remove after tests
 ]
 
 if settings.DEBUG:
