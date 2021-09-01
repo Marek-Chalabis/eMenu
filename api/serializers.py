@@ -9,7 +9,7 @@ class DishSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Dish
         fields = '__all__'
-        read_only_fields = ('modified_date', 'added_date')
+        read_only_fields = ('modified', 'created')
         extra_kwargs = {'menu': {'required': False}}
 
 
@@ -19,5 +19,5 @@ class MenuSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Menu
         fields = '__all__'
-        read_only_fields = ('modified_date', 'added_date')
+        read_only_fields = ('modified', 'created')
         depth = 1

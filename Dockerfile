@@ -7,14 +7,35 @@ RUN mkdir /app
 ENV APP_HOME=/app
 WORKDIR $APP_HOME
 
+# linux packages
+RUN apk add --no-cache --update \
+    postgresql-dev \
+    python3-dev \
+    libc-dev \
+    linux-headers \
+    zlib \
+    zlib-dev \
+    libxml2-dev \
+    libxslt-dev \
+    libffi-dev \
+    gcc \
+    musl-dev \
+    libgcc \
+    openssl-dev \
+    curl \
+    jpeg-dev \
+    zlib-dev \
+    freetype-dev \
+    lcms2-dev \
+    openjpeg-dev \
+    tiff-dev \
+    tk-dev tcl-dev
+
+
 # install dependecies and delete packages not needed after
 RUN pip install --upgrade pip
 COPY requirements.txt /.
-RUN apk add --update --no-cache postgresql-dev gcc python3-dev musl-dev
-RUN apk add --update --no-cache --virtual .tmp-build-deps \
-    libc-dev linux-headers  zlib zlib-dev
 RUN pip install -r /requirements.txt
-RUN apk del .tmp-build-deps
 
 # TODO add lints here or on CI/CD
 

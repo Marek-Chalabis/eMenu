@@ -1,3 +1,5 @@
+import os
+import sys
 from pathlib import Path
 from typing import List
 import environ
@@ -37,7 +39,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'djmoney',
-    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'crum.CurrentRequestUserMiddleware',
 ]
 
 ROOT_URLCONF = 'emenu.urls'
@@ -121,6 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'users/media')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -152,8 +157,8 @@ CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
 CELERY_TASK_SERIALIZER = env('CELERY_TASK_SERIALIZER')
 CELERY_BEAT_SCHEDULE = {
     'send_update_dish_emails': {
-        'task': "emails.tasks.send_update_dish_emails",
-        'schedule': crontab(minute=0, hour='10,'),
+        'task': 'emails.tasks.send_update_dish_emails',
+        'schedule': crontab(minute=0, hour=10),
     }
 }
 
@@ -166,14 +171,11 @@ EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
 # DEBUG_TOOLBAR_CONFIG
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
 
-DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': lambda debug: DEBUG,
-}
-
-if DEBUG:
-    MIDDLEWARE += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+if DEBUG and 'test' not in sys.argv:
+    DEBUG_TOOLBAR_CONFIG = {
+        'SHOW_TOOLBAR_CALLBACK': lambda debug: DEBUG,
+    }
+    INSTALLED_APPS += ['debug_toolbar']
+    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
 
