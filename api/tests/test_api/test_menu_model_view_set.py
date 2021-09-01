@@ -18,6 +18,20 @@ class TestMenuModelViewSet(UtilsMixinAPITestCase, APITestCase):
         )
         assert response.status_code == status.HTTP_201_CREATED
 
+    def test_read_only_fields(self):
+        self.set_authorization_user_token()
+        response_json = self.client.post(
+            path='/api/v1/menus/',
+            data={
+                'describe': 'test_menu',
+                'name': 'test_menu',
+                'modified': 'test_modified',
+                'created': 'test_created',
+            },
+        ).json()
+        assert response_json['modified'] != 'test_modified'
+        assert response_json['created'] != 'test_created'
+
     def test_create_with_dish(self):
         self.set_authorization_user_token()
         test_dish = self.create_dish()
@@ -92,6 +106,18 @@ class TestMenuModelViewSet(UtilsMixinAPITestCase, APITestCase):
             'vegetarian': False,
         }.items() <= response.json()['dishes'][0].items()
         assert '12:34:00' == response.json()['dishes'][0]['preparation_time']
+
+    def test_fields(self):
+        self.set_authorization_user_token()
+        test_menu = self.create_menu()
+        response = self.client.get(path=f'/api/v1/menus/{test_menu.id}/')
+        assert list(response.json().keys()) == [
+            'name',
+            'describe',
+            'created',
+            'modified',
+            'dishes',
+        ]
 
     def test_list(self):
         self.set_authorization_user_token()
