@@ -13,8 +13,8 @@ class MenuFilterSet(django_filters.FilterSet):
         model = Menu
         fields = {
             'name': ['exact', 'icontains'],
-            'added_date': ['exact', 'gt', 'gte', 'lt', 'lte', 'range'],
-            'modified_date': ['exact', 'gt', 'gte', 'lt', 'lte', 'range'],
+            'created': ['exact', 'gt', 'gte', 'lt', 'lte', 'range'],
+            'modified': ['exact', 'gt', 'gte', 'lt', 'lte', 'range'],
         }
 
     def dishes_count_filter(self, queryset, _, value) -> QuerySet:

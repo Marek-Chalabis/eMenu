@@ -51,7 +51,7 @@ class UpdateNewDishesFromYesterday(EmailMixins, MassEmailABC):
     def _get_message(self) -> str:
         yesterday = datetime.now() - timedelta(days=1)
         new_or_modified_menus = Dish.objects.filter(
-            Q(added_date__gte=yesterday) | Q(modified_date__gte=yesterday)
+            Q(created__gte=yesterday) | Q(modified__gte=yesterday)
         ).values_list('name', 'id')
         dishes = " ".join(
             {

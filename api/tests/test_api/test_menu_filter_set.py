@@ -19,16 +19,16 @@ class TestMenuFilterSet(UtilsMixinAPITestCase, APITestCase):
         response = self.client.get(path=f'{self.url}dishes_count=1')
         assert response.json()['count'] == 1
 
-    def test_filter_by_added_date(self):
+    def test_filter_by_created(self):
         now = datetime.now()
-        response = self.client.get(path=f'{self.url}added_date__gt={now}')
+        response = self.client.get(path=f'{self.url}created__gt={now}')
         assert response.json()['count'] == 0
-        response = self.client.get(path=f'{self.url}added_date__lt={now}')
+        response = self.client.get(path=f'{self.url}created__lt={now}')
         assert response.json()['count'] == 2
 
-    def test_filter_by_modified_date(self):
+    def test_filter_by_modified(self):
         now = datetime.now()
-        response = self.client.get(path=f'{self.url}modified_date__gt={now}')
+        response = self.client.get(path=f'{self.url}modified__gt={now}')
         assert response.json()['count'] == 0
-        response = self.client.get(path=f'{self.url}modified_date__lt={now}')
+        response = self.client.get(path=f'{self.url}modified__lt={now}')
         assert response.json()['count'] == 2
