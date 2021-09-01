@@ -10,5 +10,5 @@ router.register('menus', MenuModelViewSet, basename='menus')
 
 urlpatterns = [
     path('v1/', include(router.urls)),
-    path('v1/token-auth/', views.obtain_auth_token)
+    path('v1/token-auth/', views.obtain_auth_token),
 ]

@@ -4,7 +4,6 @@ from api.models import Dish, Menu
 
 
 class DishSerializer(serializers.ModelSerializer):
-
     class Meta:
         ordering = ['-id']
         model = Dish
@@ -14,7 +13,6 @@ class DishSerializer(serializers.ModelSerializer):
 
 
 class MenuSerializer(serializers.ModelSerializer):
-
     class Meta:
         ordering = ['-id']
         model = Menu
