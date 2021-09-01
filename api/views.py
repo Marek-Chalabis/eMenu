@@ -46,9 +46,7 @@ class MenuModelViewSet(
         return Response(serializer.data)
 
     @action(
-        detail=False,
-        url_path='menus_with_dishes',
-        url_name='menus_with_dishes'
+        detail=False, url_path='menus_with_dishes', url_name='menus_with_dishes'
     )
     def menus_with_dishes(self, request: Request) -> Response:
         queryset = self.filter_queryset(

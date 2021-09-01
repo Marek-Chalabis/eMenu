@@ -1,17 +1,29 @@
-from django.contrib.auth.models import User
 from django.db import models
 from djmoney.models.fields import MoneyField
 from crum import get_current_user
 
 
 class ProductABC(models.Model):
+    name = models.CharField(max_length=50)
     describe = models.CharField(max_length=250)
     created = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey('auth.User', null=True, blank=True,
-                                   default=None, on_delete=models.SET_NULL, related_name='%(class)s_created_by')
+    created_by = models.ForeignKey(
+        'auth.User',
+        null=True,
+        blank=True,
+        default=None,
+        on_delete=models.SET_NULL,
+        related_name='%(class)s_created_by',
+    )
     modified = models.DateTimeField(auto_now=True)
-    modified_by = models.ForeignKey('auth.User', null=True, blank=True,
-                                    default=None, on_delete=models.SET_NULL, related_name='%(class)s_modified_by')
+    modified_by = models.ForeignKey(
+        'auth.User',
+        null=True,
+        blank=True,
+        default=None,
+        on_delete=models.SET_NULL,
+        related_name='%(class)s_modified_by',
+    )
 
     class Meta:
         abstract = True
@@ -25,7 +37,6 @@ class ProductABC(models.Model):
 
 
 class Dish(ProductABC):
-    name = models.CharField(max_length=50)
     price = MoneyField(max_digits=6, decimal_places=2, default_currency='EUR')
     preparation_time = models.TimeField()
     vegetarian = models.BooleanField()
@@ -38,4 +49,4 @@ class Menu(ProductABC):
 
     @property
     def have_dishes(self) -> bool:
-        return bool(self.dishes.filter(pk=self.pk).exists())
+        return self.dishes.all().exists()
