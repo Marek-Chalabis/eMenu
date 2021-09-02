@@ -28,4 +28,16 @@ class MenuSerializer(serializers.ModelSerializer):
         model = Menu
         fields = ('pk', 'name', 'describe', 'created', 'modified', 'dishes')
         read_only_fields = ('modified', 'created')
-        depth = 1
+
+    def __init__(self, *args, **kwargs) -> None:
+        """Show dishes on detail menu view."""
+        super().__init__(*args, **kwargs)
+        request = self.context.get('request')
+        if (
+            request
+            and request.method == 'GET'
+            and self.context['view'].action == 'retrieve'
+        ):
+            self.Meta.depth = 1
+        else:
+            self.Meta.depth = 0
