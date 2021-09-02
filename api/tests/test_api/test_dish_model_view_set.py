@@ -1,11 +1,7 @@
-from api.tests.test_api.test_utils import UtilsMixinAPITestCase
-
-import io
-
-from PIL import Image
-
 from rest_framework import status
 from rest_framework.test import APITestCase
+
+from api.tests.test_api.test_utils import UtilsMixinAPITestCase
 
 
 class TestDishModelViewSet(UtilsMixinAPITestCase, APITestCase):

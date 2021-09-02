@@ -1,10 +1,7 @@
-import time
-
-
-from typing import Optional
 import random
-
+import time
 from datetime import datetime, timedelta
+from typing import Optional
 
 
 def get_random_date(

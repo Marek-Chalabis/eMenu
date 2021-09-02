@@ -1,6 +1,6 @@
+from crum import get_current_user
 from django.db import models
 from djmoney.models.fields import MoneyField
-from crum import get_current_user
 
 
 class ProductABC(models.Model):

@@ -1,12 +1,10 @@
-import uuid
-
-
-from typing import List
 import random
+import uuid
+from typing import List
 
+import requests
 from django.contrib.auth.models import User
 from django.core.management import BaseCommand
-import requests
 
 from api.models import Dish, Menu
 from api.tests.test_utils import get_random_date
@@ -75,7 +73,9 @@ class Command(BaseCommand):
                 modified=modified,
                 modified_by=random.choice(users),
                 price=random.randint(10000, 99999) / 100.00,
-                preparation_time=f'{random.randint(1, 30)}:{random.randint(0, 59)}',
+                preparation_time=(
+                    f'{random.randint(1, 30)}:{random.randint(0, 59)}'
+                ),
                 vegetarian=random.choice([True, False]),
             )
             for dish in dishes
