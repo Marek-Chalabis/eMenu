@@ -8,6 +8,7 @@ class DishSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Dish
         fields = (
+            'pk',
             'name',
             'describe',
             'created',
@@ -25,6 +26,6 @@ class MenuSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
         model = Menu
-        fields = ('name', 'describe', 'created', 'modified', 'dishes')
+        fields = ('pk', 'name', 'describe', 'created', 'modified', 'dishes')
         read_only_fields = ('modified', 'created')
         depth = 1

@@ -38,7 +38,7 @@ class ProductABC(models.Model):
 
 class Dish(ProductABC):
     price = MoneyField(max_digits=6, decimal_places=2, default_currency='EUR')
-    preparation_time = models.TimeField()
+    preparation_time = models.DurationField()
     vegetarian = models.BooleanField()
     image = models.ImageField(upload_to='dish_images', null=True)
 
