@@ -112,6 +112,7 @@ class TestMenuModelViewSet(UtilsMixinAPITestCase, APITestCase):
         test_menu = self.create_menu()
         response = self.client.get(path=f'/api/v1/menus/{test_menu.id}/')
         assert list(response.json().keys()) == [
+            'pk',
             'name',
             'describe',
             'created',

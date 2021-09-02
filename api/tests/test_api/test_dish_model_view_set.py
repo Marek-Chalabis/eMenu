@@ -11,11 +11,6 @@ from rest_framework.test import APITestCase
 class TestDishModelViewSet(UtilsMixinAPITestCase, APITestCase):
     def test_create(self):
         self.set_authorization_user_token()
-        file = io.BytesIO()
-        image = Image.new('RGBA', size=(100, 100), color=(155, 0, 0))
-        image.save(file, 'png')
-        file.name = 'test.png'
-        file.seek(0)
         response = self.client.post(
             path='/api/v1/dishes/',
             data={
@@ -24,7 +19,6 @@ class TestDishModelViewSet(UtilsMixinAPITestCase, APITestCase):
                 'price': '21.37',
                 'preparation_time': '12:34',
                 'vegetarian': False,
-                'image': file,
             },
         )
         assert response.status_code == status.HTTP_201_CREATED
@@ -61,6 +55,7 @@ class TestDishModelViewSet(UtilsMixinAPITestCase, APITestCase):
         test_dish = self.create_dish()
         response = self.client.get(path=f'/api/v1/dishes/{test_dish.id}/')
         assert list(response.json().keys()) == [
+            'pk',
             'name',
             'describe',
             'created',
