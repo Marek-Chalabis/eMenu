@@ -1,37 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Set, NamedTuple
-
-
-from django.contrib.auth.models import User
+from typing import List
 
 from django.db.models import Q
 
 from api.models import Dish
+from emails.emails_utils import EmailMixins, MassEmailABC, Email
 from emenu.settings import env
 from datetime import datetime, timedelta
-
-
-class Email(NamedTuple):
-    subject: str
-    message: str
-    from_email: str
-    recipient_list: List[str]
-
-
-class EmailMixins:
-    @property
-    def all_active_users_emails(self) -> List[str]:
-        return (
-            User.objects.filter(is_active=True)
-            .exclude(email='')
-            .values_list('email', flat=True)
-        )
-
-
-class MassEmailABC(ABC):
-    @abstractmethod
-    def prepare_mass_emails(self) -> Set[Email]:
-        """Returns Set with emails data."""
 
 
 class UpdateNewDishesFromYesterday(EmailMixins, MassEmailABC):
@@ -59,4 +33,6 @@ class UpdateNewDishesFromYesterday(EmailMixins, MassEmailABC):
                 for dish_name, dish_id in new_or_modified_menus
             }
         )
-        return f'Following dishes were added or modified: {dishes}.'
+        if dishes:
+            return f'Following dishes were added or modified: {dishes}.'
+        return 'There are no new or modified dishes from yesterday.'

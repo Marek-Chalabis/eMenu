@@ -163,12 +163,14 @@ CELERY_BROKER_URL = env('CELERY_BROKER_URL')
 CELERY_ACCEPT_CONTENT = env.list('CELERY_ACCEPT_CONTENT')
 CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
 CELERY_TASK_SERIALIZER = env('CELERY_TASK_SERIALIZER')
-CELERY_BEAT_SCHEDULE = {
-    'send_update_dish_emails': {
-        'task': 'emails.tasks.send_update_dish_emails',
-        'schedule': crontab(minute=0, hour=10),
+CELERY_ALLOW_PERIODIC_TASKS = env.bool('CELERY_ALLOW_PERIODIC_TASKS', default=False)
+if CELERY_ALLOW_PERIODIC_TASKS:
+    CELERY_BEAT_SCHEDULE = {
+        'send_update_dish_emails': {
+            'task': 'emails.tasks.send_update_dish_emails',
+            'schedule': crontab(minute=0, hour=10),
+        }
     }
-}
 
 # EMAIL
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -179,11 +181,14 @@ EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
 # DEBUG_TOOLBAR_CONFIG
-
-if DEBUG and 'test' not in sys.argv:
+DEBUG_TOOLBAR = env.bool('DEBUG_TOOLBAR', default=False)
+if DEBUG and DEBUG_TOOLBAR:
+    INTERNAL_IPS = [
+        '127.0.0.1',
+    ]
     DEBUG_TOOLBAR_CONFIG = {
         'SHOW_TOOLBAR_CALLBACK': lambda debug: DEBUG,
     }
-    INSTALLED_APPS += ['debug_toolbar']
-    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+    INSTALLED_APPS.append('debug_toolbar')
 
