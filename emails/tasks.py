@@ -1,5 +1,4 @@
 from celery import shared_task
-
 from django.core.mail import send_mass_mail
 
 from emails.emails_creators import UpdateNewDishesFromYesterday

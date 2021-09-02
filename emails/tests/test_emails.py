@@ -1,15 +1,13 @@
 import os
+from datetime import datetime, timedelta
 from unittest import mock
-from unittest.mock import patch, PropertyMock
+from unittest.mock import PropertyMock, patch
 
 import pytest
 
 from api.models import Dish
 from api.tests.test_utils import get_random_date
 from emails.emails_creators import UpdateNewDishesFromYesterday
-
-from datetime import datetime, timedelta
-
 from emails.emails_utils import Email
 
 
@@ -62,7 +60,7 @@ class TestUpdateNewDishesFromYesterday:
             for dish in {'created_new_dish(26)', 'modified_old_dish(28)'}
         )
 
-    @mock.patch.dict(os.environ, {"EMAIL_HOST_USER": "test_host_email@vp.pl"})
+    @mock.patch.dict(os.environ, {'EMAIL_HOST_USER': 'test_host_email@vp.pl'})
     @patch(
         'emails.emails_creators.EmailMixins.all_active_users_emails',
         new_callable=PropertyMock,

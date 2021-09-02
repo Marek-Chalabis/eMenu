@@ -1,11 +1,11 @@
+from datetime import datetime, timedelta
 from typing import List
 
 from django.db.models import Q
 
 from api.models import Dish
-from emails.emails_utils import EmailMixins, MassEmailABC, Email
+from emails.emails_utils import Email, EmailMixins, MassEmailABC
 from emenu.settings import env
-from datetime import datetime, timedelta
 
 
 class UpdateNewDishesFromYesterday(EmailMixins, MassEmailABC):
@@ -27,7 +27,7 @@ class UpdateNewDishesFromYesterday(EmailMixins, MassEmailABC):
         new_or_modified_menus = Dish.objects.filter(
             Q(created__gte=yesterday) | Q(modified__gte=yesterday)
         ).values_list('name', 'id')
-        dishes = " ".join(
+        dishes = ' '.join(
             {
                 f'{dish_name}({dish_id})'
                 for dish_name, dish_id in new_or_modified_menus
