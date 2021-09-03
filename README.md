@@ -4,10 +4,10 @@
 
 ## Table of contents
 
-- [General info](##general-info)
+- [General info](#general-info)
 - [Features](#features)
 - [Setup](#setup)
-- [API documentation](#api-documentatin)
+- [API documentation](#api-documentation)
 - [Tests](#tests)
 - [Technologies](#technologies)
 - [Contact](#contact)
