@@ -35,7 +35,9 @@ List of features:
 ## Setup
 
 1 Install Docker and Docker compose
+
 2 Adjust environment variables in [.env](emenu/.env)
+
 3 Build image (*all commands should be done in project root directory)
 ```
     docker-compose build
