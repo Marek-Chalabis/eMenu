@@ -8,6 +8,8 @@ services:
       sh -c "python manage.py runserver 0.0.0.0:8000"
     ports:
       - "8000:8000"
+    volumes:
+      - .:/app
     depends_on:
       - db
       - redis
@@ -25,7 +27,7 @@ services:
       context: .
     command: celery -A emenu worker -l INFO
     volumes:
-      - .:/code
+      - .:/app
     env_file:
       - ./emenu/.env
     depends_on:
@@ -36,7 +38,7 @@ services:
       context: .
     command: celery -A emenu beat -l INFO
     volumes:
-      - .:/code
+      - .:/app
     env_file:
       - ./emenu/.env
     depends_on:
